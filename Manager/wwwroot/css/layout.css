@@ -1,0 +1,77 @@
+﻿.wrap{height:100%;}
+
+/* skip navi */
+.skipNavi{position:relative;z-index:110;}
+.skipNavi a{position:absolute;top:-30px;left:0;width:138px;border:1px solid red;background:black;text-align:center;z-index:110;}
+.skipNavi a span{display:inline-block;padding:2px 6px 0 0;font-size:12px;line-height:26px;color:#fff;}
+.skipNavi a:active, .skipNavi a:focus{top:0;text-decoration:none;cursor:pointer;zoom:1}
+
+
+.gnbWrap{position:relative;overflow:hidden;width:960px;margin:25px auto 0;}
+.gnbWrap .gnb{/*height:276px;*/}/* height 조절하여 sub 노출 */
+.gnbWrap .gnb li{float:left;}
+.gnbWrap .gnb li a{display:block;width:137px;padding-bottom:21px;font-size:18px;line-height:22px;font-family:'Nanum Gothic Bold';color:#505050;text-align:center;}
+.gnbWrap .gnb li.on a{color:#2389e8;background:url('../images/common/bg/bg_gnb_on.gif') repeat-x left bottom;}
+.gnbWrap .gnb .depth_2{display:none;position:absolute;top:78px;min-height:168px;padding-left:10px;width:137px;background:url('../images/common/bg/bg_gnb_sub_bar.png') no-repeat left top;}/* display:block;하여 서브 노출 */
+	.gnbWrap .gnb .menu_1{left:0;padding-left:0;background:none;}
+	.gnbWrap .gnb .menu_2{left:132px;}
+	.gnbWrap .gnb .menu_3{left:279px;}
+	.gnbWrap .gnb .menu_4{left:416px;}
+	.gnbWrap .gnb .menu_5{left:548px;}
+	.gnbWrap .gnb .menu_6{left:685px;}
+	.gnbWrap .gnb .menu_7{left:822px;}
+.gnbWrap .gnb .depth_2 strong{display:block;margin-bottom:20px;font-size:16px;color:#2389e8;}
+.gnbWrap .gnb .depth_2 li{float:none;padding:0;margin-bottom:9px;}
+.gnbWrap .gnb .depth_2 li a{padding:0;font-size:13px;color:#333;text-align:left;background:none;}
+.gnbWrap .gnb .depth_2 li a:hover{color:#2389e8}
+
+/* container */
+.container{position:relative;min-width:960px;padding-bottom:100px;}
+.contents{width:960px;margin:0 auto;padding:50px 0 0;}
+.log{min-height:600px;}
+
+/* check box style */
+.checkBox{position:relative;}
+.checkBox input{opacity:0;display:block;width:0px;height:0px;font-size:0px;line-height:0;text-indent:-9999px;outline:none;}
+.checkBox label{display:block;height:18px;padding:0 0 0 28px;line-height:18px;background:url('../images/common/global/input_chk.gif') no-repeat left top;}
+	.checkBox label.on{background:url('../images/common/global/input_chk.gif') no-repeat left -18px;}
+
+/* input box style */
+.input_text{height:18px;padding:5px 10px 5px;font-size:14px;line-height:18px;color:#505050;border:1px solid #d8d8d8;}
+.input_box{position:relative;}
+.input_box label{position:absolute; top:6px; left:10px;}
+
+/* select box style */
+select{height:30px;padding:4px 5px 5px 10px;font-size:14px;line-height:18px;border:1px solid #d8d8d8;background:#fff;}
+
+/* radio style */
+.radioList{overflow:hidden;margin-left:-20px;}
+.radioList li{float:left;margin-left:20px;}
+.radioList li input{opacity:0;display:block;width:0px;height:0px;font-size:0px;line-height:0;text-indent:-9999px;outline:none;}
+.radioList li label{display:block;height:20px;padding:0 0 0 28px;line-height:20px;background:url('../images/common/global/input_rdo.png') no-repeat left top;}
+	.radioList li label.on{background:url('../images/common/global/input_rdo.png') no-repeat left -20px;}
+
+/* tab style */
+.tabWrap{}
+.tabList{overflow:hidden;margin:0 0 10px -10px;}
+.tabList li{float:left;margin-left:10px;}
+.tabList li a{display:block;width:224px;padding:10px 0 20px;font-size:14px;font-family:'Nanum Gothic Bold';text-align:center;background:url('../images/common/bg/bg_tab.gif') no-repeat left top;}
+.tabList li.current a{color:#fff;background:url('../images/common/bg/bg_tab.gif') no-repeat left -48px;}
+.tabList.type_2{margin-bottom:20px;}
+.tabList.type_2 li a{width:475px;background:url('../images/common/bg/bg_tab_2.gif') no-repeat left top;}
+.tabList.type_2 li.current a{background:url('../images/common/bg/bg_tab_2.gif') no-repeat left -48px;}
+.tabContents > li{display:none;}
+
+/*.slideTab{overflow:hidden;}
+.slideTab li{float:left;padding-bottom:10px;margin-left:10px;}
+.slideTab li.current{background:url('../images/common/bg/bg_tab_on.png') no-repeat center bottom;}*/
+
+/* pagination */
+.pagination{margin-top:30px;text-align:center;vertical-align:middle;}
+.pagination .btnPrev{margin-right:5px;}
+.pagination .btnNext{margin-left:5px;}
+.pagination a{display:inline-block;width:19px;margin-left:5px;height:26px;font-size:13px;line-height:26px;color:#666;vertical-align:middle;}
+.pagination a.on{width:26px;color:#4693cb;background:url('../images/common/bg/bg_paging.gif') no-repeat left top;}
+.pagination .btnPrev a,
+.pagination .btnNext a{width:26px;}
+.pagination img{vertical-align:middle;}

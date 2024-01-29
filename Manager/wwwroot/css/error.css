@@ -1,0 +1,7 @@
+﻿div.error_wrap .error { position: fixed; top: 50%; left: 50%; margin-top: -226px; margin-left: -301px; width: 500px; height: 350px; padding: 50px; text-align: center; border: 1px solid #ccc; background: #fff; }
+div.error_wrap .error h1.logo { background-image: url(/images/shoemarker_logo.jpg);background-repeat:no-repeat;background-position:left center; background-size: auto 50px; width: 100%; height: 50px; text-indent: -9999px; padding-top: 0; margin: 0; }
+div.error_wrap .error p.err_title { margin-top: 30px; font-size: 30px; font-weight: 600; color: #D0D0D0; line-height: 30px; text-align:left; }
+div.error_wrap .error p.err_cont { margin-top: 10px; margin-bottom:80px; font-size: 22px; font-weight: 600; color: #D0D0D0; line-height: 22px; text-align:left; }
+div.error_wrap .error p.err_sub_cont { margin-top: 10px; font-size: 14px; font-weight: 600; color: #999; line-height: 14px; text-align:left; }
+.btn_wrap { width:100%; text-align:center; margin-top:48px; }
+.btn_wrap span { display:inline-block; width:250px; color:#999; font-size:15px; font-weight:600; line-height:40px; border:1px solid #999; border-radius:5px; cursor:pointer; }
