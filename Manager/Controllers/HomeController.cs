@@ -15,18 +15,11 @@ namespace Manager.Controllers
             _logger = logger;
         }
 
-        [Authorize]
+        [AuthorizeFilter]
+        [HttpGet]
+        [Route("/")]
         public IActionResult Index()
         {
-            Func.SetCookie("wow", "12345", 1);
-            ViewBag.wow = Func.GetCookie("wow");
-
-            Func.SetSesion("s", "2222");
-            ViewBag.s = Func.GetSession("s");
-
-            //return MessageConfig.AlertMessage("a", "");
-
-
             return View();
         }
 
@@ -44,7 +37,7 @@ namespace Manager.Controllers
             Response.WriteAsync(Request.QueryString.ToString());
         }
 
-        [Validation, ValidateAntiForgeryToken]
+        [ValidationFilter, ValidateAntiForgeryToken]
         [HttpPost]
         [Route("test")]
         public void Test(LoginRequest loginRequest)

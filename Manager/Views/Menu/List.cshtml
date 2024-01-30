@@ -1,0 +1,226 @@
+﻿@using Manager.Common
+@model Manager.Models.Manage.MenuListModel
+@{
+    Layout = "_Layout";
+
+    string bgcolor = "#ffffff";
+}
+<script type="text/javascript" src="/js/manage/menu/menu.js?ver=@Func.GetNow()"></script>
+<div>
+    <table style="width:100%">
+        <colgroup>
+            <col style="width: 23%;">
+            <col style="width: 2%;">
+            <col style="width: 70%;">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td style="vertical-align:top; border:none; padding:0;">
+                    <div class="tb_data_1 mt0">
+                        <table>
+                            <colgroup>
+                                <col style="width: auto;">
+                                <col style="width: 15%;">
+                                <col style="width: 10%;">
+                                <col style="width: 10%;">
+                                <col style="width: 15%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col">메뉴명</th>
+                                    <th scope="col">코드</th>
+                                    <th scope="col" colspan="2">순서</th>
+                                    <th scope="col">게시</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ListMenu1">
+                                @foreach (var depth1 in Model.Depth1List)
+                                {
+                                    <tr>
+                                        <td><a href="/manage/menu/list/@depth1.menucode">@depth1.menuname</a></td>
+                                        <td>@depth1.menucode</td>
+                                        <td>
+                                            @if (ViewBag.Permission.isWrite)
+                                            {
+                                                <a href="#" onclick="mod_ManageMenuDisNum('U', '0000', '@depth1.menucode');">↑</a>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (ViewBag.Permission.isWrite)
+                                            {
+                                                <a href="#" onclick="mod_ManageMenuDisNum('D', '0000', '@depth1.menucode');">↓</a>
+                                            }
+
+                                        </td>
+                                        <td>@depth1.menuuseflag</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (ViewBag.Permission.isWrite)
+                    {
+                        <form name="menu1form" method="post" action="/manage/menu/add" onsubmit="return chk_FieldP(this)">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="menuPCode" value="0000">
+                            <input type="hidden" name="menuUrl" value="#">
+                            <div class="tb_layout_1 mt40">
+                                <table>
+                                    <colgroup>
+                                        <col style="width: 30%;">
+                                        <col style="width: auto;">
+                                        <col style="width: 25%;">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <td class="title"><span class="required">메뉴명</span></td>
+                                            <td class="pl5"><input type="text" name="menuName" maxlength="20" class="input_text" style="width: 80%;"></td>
+                                            <td class="ar pl0 pr5 bdlN"><button class="btn-c"><span>입력</span></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    }
+                </td>
+                <td style="vertical-align:top; border:none; padding:0;">
+                    &nbsp;
+                </td>
+                <td style="vertical-align:top; border:none; padding:0;">
+                    <div class="tb_data_1 mt0">
+                        <table>
+                            <colgroup>
+                                <col style="width: 20%;">
+                                <col style="width: 7%;">
+                                <col style="width: auto;">
+                                <col style="width: 4%;">
+                                <col style="width: 4%;">
+                                <col style="width: 7%;">
+                                <col style="width: 7%;">
+                                <col style="width: 7%;">
+                                <col style="width: 7%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col">메뉴명</th>
+                                    <th scope="col">코드</th>
+                                    <th scope="col">URL</th>
+                                    <th scope="col" colspan="2">순서</th>
+                                    <th scope="col">즐겨찾기</th>
+                                    <th scope="col">게시</th>
+                                    <th scope="col">수정</th>
+                                    <th scope="col">삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ListMenu2">
+                                <tr style="background-color: #E5E5E5;">
+                                    @foreach (var depth1 in Model.Depth1List)
+                                    {
+                                        if (depth1.menucode.Equals(ViewBag.MenuPCode))
+                                        {
+                                            <td>@depth1.menuname</td>
+                                            <td>@depth1.menucode</td>
+                                            <td style="text-align:left;padding-left:5px;">@depth1.menuurl</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>@depth1.menuuseflag</td>
+                                            <td>
+                                                @if (ViewBag.Permission.isWrite)
+                                                {
+                                                    <a href="/manage/menu/modify/@depth1.menupcode/@depth1.menucode" class="btn-c"><span>수정</span></a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.Permission.isWrite)
+                                                {
+                                                    <a href="#" onclick="del_Menu('@depth1.menupcode', '@depth1.menucode');" class="btn-c"><span>삭제</span></a>
+                                                }
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                                @foreach (var depth2 in Model.Depth2List)
+                                {
+
+                                    if (depth2.menuuseflag.Equals("N"))
+                                    {
+                                        bgcolor = "#FFE6FE";
+                                    }
+                                    <tr style="background-color: @bgcolor">
+                                        <td>@depth2.menuname</td>
+                                        <td>@depth2.menucode</td>
+                                        <td style="text-align:left;padding-left:5px;">@depth2.menuurl</td>
+                                        <td>
+                                            @if (ViewBag.Permission.isWrite)
+                                            {
+                                                <a href="#" onclick="mod_ManageMenuDisNum('U', '@depth2.menupcode', '@depth2.menucode');">↑</a>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (ViewBag.Permission.isWrite)
+                                            {
+                                                <a href="#" onclick="mod_ManageMenuDisNum('D', '@depth2.menupcode', '@depth2.menucode');">↓</a>
+                                            }
+                                        </td>
+                                        <td>@depth2.menuchoice</td>
+                                        <td>@depth2.menuuseflag</td>
+                                        <td>
+                                            @if (ViewBag.Permission.isWrite)
+                                            {
+                                                <a href="/manage/menu/modify/@depth2.menupcode/@depth2.menucode" class="btn-c"><span>수정</span></a>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (ViewBag.Permission.isWrite)
+                                            {
+                                                <a href="#" onclick="del_Menu('@depth2.menupcode', '@depth2.menucode');" class="btn-c"><span>삭제</span></a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (ViewBag.Permission.isWrite)
+                    {
+                        <form name="menu2form" method="post" action="/manage/menu/add" onsubmit="return chk_FieldC(this)">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="menuPCode" value="@ViewBag.MenuPCode">
+                            <div class="tb_layout_1 mt40">
+                                <table>
+                                    <colgroup>
+                                        <col style="width: 15%;">
+                                        <col style="width: auto;">
+                                        <col style="width: 10%;">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <td class="title"><span class="required">메뉴명</span></td>
+                                            <td><input type="text" name="menuName" maxlength="20" class="input_text" style="width: 30%;"></td>
+                                            <td class="ar pr5 bdlN">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="title"><span class="required">메뉴URL</span></td>
+                                            <td><input type="text" name="menuUrl" maxlength="100" class="input_text" style="width: 80%;"></td>
+                                            <td class="ar pr5 bdlN"><button class="btn-c"><span>입력</span></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<form name="modifyform" id="fform" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="pageUrl" value="list">
+    <input type="hidden" name="udType" value="">
+    <input type="hidden" name="menuPCode" value="">
+    <input type="hidden" name="menuCode" value="">
+</form>

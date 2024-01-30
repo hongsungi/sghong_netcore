@@ -22,7 +22,7 @@ namespace Manager.Controllers
             return View();
         }
 
-        [Validation, ValidateAntiForgeryToken]
+        [ValidationFilter, ValidateAntiForgeryToken]
         [HttpPost]
         [Route("login")]
         public IActionResult LoginOk(LoginRequest loginRequest)

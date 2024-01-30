@@ -1,5 +1,7 @@
 ﻿@using Manager.Common;
 @{
+    Layout = null;
+
     Context.Response.Headers.Add("Expires", "-1");
     Context.Response.Headers.Add("CacheControl", "No-cache");
     Context.Response.Headers.Add("Pragma", "No-cache");

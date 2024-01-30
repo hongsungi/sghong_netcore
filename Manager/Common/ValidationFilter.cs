@@ -2,7 +2,7 @@
 
 namespace Manager.Common
 {
-    public class Validation : ActionFilterAttribute, IActionFilter
+    public class ValidationFilter : ActionFilterAttribute, IActionFilter
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {           

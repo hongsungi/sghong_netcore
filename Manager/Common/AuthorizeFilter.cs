@@ -8,12 +8,12 @@ using System.Web;
 
 namespace Manager.Common
 {
-    public class Authorize : ActionFilterAttribute, IActionFilter
+    public class AuthorizeFilter : ActionFilterAttribute, IActionFilter
     {
         private readonly AdminGroupService adminGroupService;
         private readonly MenuService menuService;
 
-        public Authorize()
+        public AuthorizeFilter()
         {
             this.adminGroupService = new AdminGroupService();
             this.menuService = new MenuService();
@@ -49,7 +49,16 @@ namespace Manager.Common
                     sProgID = HttpUtility.UrlEncode(sProgID);
                 }
 
-                filterContext.HttpContext.Response.Redirect("/login?ProgID=" + sProgID);
+                if (returnPageType.Equals("ajax"))
+                {
+                    filterContext.Result = MessageConfig.AlertMessage("", returnPageType);
+                }
+                else
+                {
+                    filterContext.Result = MessageConfig.AlertMessage("", "location.replace('/login?ProgID=" + sProgID + "');");
+                }
+                //filterContext.HttpContext.Response.Redirect("/login?ProgID=" + sProgID);
+                //filterContext.Result = MessageConfig.AlertMessage("로그인 정보가 없습니다.", "");
             }
             else
             {
@@ -177,8 +186,7 @@ namespace Manager.Common
                         filterContext.Result = MessageConfig.AlertMessage("권한이 없습니다.", returnPageType);
                     }
                 }
-            }     
-
+            }
             base.OnActionExecuting(filterContext);
         }
 
