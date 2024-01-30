@@ -15,16 +15,33 @@ namespace Manager.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            Func.SetCookie("wow", "12345");
+            Func.SetCookie("wow", "12345", 1);
             ViewBag.wow = Func.GetCookie("wow");
 
             Func.SetSesion("s", "2222");
             ViewBag.s = Func.GetSession("s");
 
             //return MessageConfig.AlertMessage("a", "");
+
+
             return View();
+        }
+
+        [AutoValidateAntiforgeryToken]
+        [Route("home/test2")]
+        public void Test2()
+        {
+            Response.WriteAsync("OK");
+        }
+
+        [Route("test1")]
+        public void Test1()
+        {
+            Response.WriteAsync(Request.Path);
+            Response.WriteAsync(Request.QueryString.ToString());
         }
 
         [Validation, ValidateAntiForgeryToken]

@@ -1,0 +1,97 @@
+﻿@using Manager.Common;
+@{
+    Context.Response.Headers.Add("Expires", "-1");
+    Context.Response.Headers.Add("CacheControl", "No-cache");
+    Context.Response.Headers.Add("Pragma", "No-cache");
+
+    string SaveID = Func.GetCookie("saveid");
+    string SaveAdminID = Func.GetCookie("saveadminid");
+    string ProgID = Func.getRequestQueryStringToString("ProgID");
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+    <partial name="~/Views/Shared/Header.cshtml" />
+</head>
+<body topmargin="0" leftmargin="0" style="background:#ffffff">
+    
+    <form name="form" method="post" action="/login">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ProgID" value="@ProgID" />
+        <div class="admin_login_wrap">
+            <div class="admin_login">
+                <p><strong>쇼핑몰관리자</strong> 페이지 입니다.<br />&nbsp;</p>
+                <!--<h1>ADMIN LOGIN</h1>-->
+                <div class="table_s02" style="padding-top:0px;">
+                    <table cellpadding="0" cellspacing="0" border="0" class="field">
+                        <colgroup>
+                            <col style="width:100%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td class="none"><input name="mid" type="text" class="inp" value="" placeholder="관리자 아이디" style="width:310px;"></td>
+                            </tr>
+                            <tr>
+                                <td><input name="mpwd" type="password" class="inp" value="" placeholder="비밀번호" style="width:310px;"></td>
+                            </tr>
+                            <tr>
+                                <td class="none">
+                                    <label><input name="saveid" type="checkbox" value="Y"> 아이디저장</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="submit" value="" class="btn_login"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        @if (SaveID != "")
+        {
+            <script type="text/javascript">
+                $(function () {
+                    $("input:checkbox[name='saveid']").prop('checked', true);
+                    $("input[name='mid']").val('@SaveAdminID')
+                });
+            </script>
+
+        }
+
+        <script type="text/javascript">
+            $(function () {
+                if ($("input:checkbox[name='saveid']").is(":checked")) {
+                    $("input[name='mpwd']").focus();
+                }
+                else {
+                    $("input[name='mid']").focus();
+                }
+            });
+        </script>
+
+        <script type="text/javascript">
+            function aaa() {
+                $.ajax({
+                    type		 : "post",
+                    url			 : "/home/test2",
+                    async		 : false,
+                    data		 : "adminid=1",
+                    dataType	 : "text",
+                    headers: {
+                        'RequestVerificationToken': getToken()
+                    },
+                    success		 : function (data) {
+                        alert(data);
+                    },
+                    error		 : function (data) {
+                        alert(data.responseText);
+                        alert("처리 도중 오류가 발생하였습니다.");
+                    }
+                });
+            }
+        </script>
+
+    </form>
+</body>
+</html>

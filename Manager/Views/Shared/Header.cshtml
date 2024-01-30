@@ -1,0 +1,37 @@
+﻿@using Manager.Common
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
+}
+<title>관리자</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="_csrf" content="@requestToken">
+<meta name="_csrf_header" content="__RequestVerificationToken">
+
+<link rel="apple-touch-icon-precomposed" sizes="16x16" href="/images/cwfavicon.png?ver=0.1">
+<link rel="shortcut icon" href="/images/cwfavicon.png?ver=0.1">
+
+<link rel="stylesheet" href="/css/style.css?ver=@Func.GetNow()" type="text/css">
+<!--[if lt IE 10]>
+<link rel="stylesheet" href="/css/ie9.css" type="text/css">
+<![endif]-->
+<link rel="stylesheet" href="/css/jquery-ui-1.8.16.custom.css">
+
+<script type="text/javascript" src="/js/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="/js/jquery-migrate-1.4.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<!--[if lt IE 10]>
+<link rel="stylesheet" href="/CSS/ie9.css">
+<![endif]-->
+
+<script type="text/javascript" src="/js/CheckChr.js?ver=@Func.GetNow()"></script>
+<script type="text/javascript" src="/js/CheckVal.js?ver=@Func.GetNow()"></script>
+<script type="text/javascript" src="/js/common.js?ver=@Func.GetNow()"></script>
+<script type="text/javascript" src="/js/cmm_loc.js?ver=@Func.GetNow()"></script>
+<!--[if lt IE 9]>
+<script type="text/javascript" src="/js/html5shiv.js"></script>
+<![endif]-->

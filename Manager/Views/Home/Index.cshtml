@@ -1,20 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Manager.Common
+@{
+    Layout = "_Layout";
 }
+<style>
+    #NotDelivery tbody .ar:hover {
+        background: #ebf7ff !important
+    }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewBag.wow</h1>
-    <h1 class="display-4">@ViewBag.s</h1>
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    #NotDelivery tfoot .ar:hover {
+        background: #ebf7ff !important
+    }
+</style>
+<style>
+    .lnbW {
+        left: -200px;
+    }
 
-    <form name="form" method="post" action="/test">
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="mid" value="123456798" />
-        <input type="hidden" name="mpwd" value="32" />
-        <input type="hidden" name="ProgID" value="" />
-        <input type="hidden" name="saveid" value="" />
-    </form>
-    <button name="btn" onclick="document.form.submit();">버튼</button>
-</div>
+    .container .contents {
+        margin-left: 0;
+    }
+</style>
 
+    메인

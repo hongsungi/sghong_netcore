@@ -1,49 +1,224 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Manager.Common
+@{
+    Context.Response.Headers.Add("Expires", "-1");
+    Context.Response.Headers.Add("CacheControl", "No-cache");
+    Context.Response.Headers.Add("Pragma", "No-cache");
+}
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Manager</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Manager.styles.css" asp-append-version="true" />
+    <partial name="~/Views/Shared/Header.cshtml" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Manager</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <style>
+        #loading2 {
+            position: fixed;
+            display: inline-block;
+            padding: 50px;
+            top: 50%;
+            left: 50%;
+            margin-top: -75px;
+            margin-left: -75px;
+            background: #ffffff;
+            border: 1px solid #000;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+    <style type="text/css">
+        .my-menu-btn {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .my-menu-wrap {
+            display: none;
+            position: absolute;
+            top: 25px;
+            right: 0;
+            padding: 10px;
+            background: #fff;
+            z-index: 1000;
+            border: 1px solid #999;
+        }
+
+        .my-menu {
+            border-top: 2px solid #4693cb;
+            background: #fff; /*box-shadow:5px 5px 3px #999;*/
+        }
+
+            .my-menu thead th {
+                height: 25px !important;
+                font-size: 12px;
+                font-weight: bold;
+                border: 1px solid #d8d8d8;
+                border-collapse: collapse;
+                text-align: center;
+                vertical-align: middle;
+                color: #333;
+                background: #f7f7f7;
+            }
+
+            .my-menu td {
+                height: 25px !important;
+                font-size: 12px;
+                font-weight: normal;
+                border: 1px solid #d8d8d8;
+                border-collapse: collapse;
+                padding: 0 15px;
+                box-sizing: border-box;
+            }
+    </style>
+    <div id="loading2">
+        <img src="/images/loading.gif" alt="처리중">
+        <p class="ac mt20 b" id="msg">처리 중 입니다...</p>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Manager - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <div class="wrap">
+        <div class="headerW">
+            <div class="header">
+                <h1 class="logo"><a href="#"><img src="/images/admin-logo.png"></a></h1>
+                <ul class="gnb">
+                    @foreach (var menu in ViewBag.Permission.TopMenuList)
+                    {
+                        <li @if (menu.menucode.Equals(ViewBag.Permission.MenuCode1)) { Html.Raw("class=on"); }>
+                            <a href="@menu.menuurl">@menu.menuname</a>
+                        </li>
+                    }
+                </ul>
+                <ul class="topMenu">
+                    <li><span class="name">@Func.GetCookie("adminname")</span></li>
+                    <li><a href="/logout">로그아웃</a></li>
+                    <li><a href="https://www.naver.com" target="_blank">E-SHOP</a></li>
+                </ul>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+        <div class="container">
+            <div class="lnbW">
+                <h2 class="h2_lnb">@ViewBag.Permission.TopMenuName</h2>
+                <ul class="lnb">
+                    @if (ViewBag.Permission.LeftMenuList != null)
+                    {
+                        foreach (var menu in ViewBag.Permission.LeftMenuList)
+                        {
+                            <li @if (menu.menucode.Equals(ViewBag.Permission.MenuCode2))
+                            {
+                                @Html.Raw("class=on")
+                                ;
+                            }>
+                                <a href="@menu.menuurl">@menu.menuname</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="contents">
+                <div class="sidemenu">
+                    <span onclick="SideMenuShow()">MENU</span>
+                </div>
+
+                <div class="realCon">
+                    <h3 class="h3" style="position:relative;">
+                        @if (ViewBag.Permission.MenuCode1.Equals("0000"))
+                        {
+                            @Html.Raw("오늘정보")
+                            ;
+                        }
+                        else
+                        {
+                            <span>@ViewBag.Permission.TopMenuName</span>
+                            <span>&gt;</span>
+                            <span class="menuTitle">@ViewBag.Permission.LeftMenuName</span>
+                        }
+
+                        @if (ViewBag.Permission.MenuChoice.Equals("Y"))
+                        {
+                            <span class="my-menu-btn">
+                                <a href="javascript:my_MenuList(0)" class="btn-d"><span>MY+</span></a>
+                                @if (!Func.GetCookie("menuchoice").Contains(ViewBag.Permission.MenuCode2))
+                                {
+                                    <a href="javascript:add_MyMenu('@ViewBag.Permission.MenuCode2');" id="aBtn" class="btn-d"><span>즐겨찾기 추가</span></a>
+                                }
+
+                            </span>
+                            <span id="CMenuList" class="my-menu-wrap"></span>
+                        }
+                    </h3>
+
+                    @RenderBody()
+                </div>
+
+
+                <div class="footer">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <iframe name="act_frame1" border="0" width="100%" height="0" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <style>
+        #dimmed {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            opacity: 0.5;
+            -ms-filter: alpha(opacity=50);
+            filter: alpha(opacity=50);
+            z-index: 500;
+            display: none;
+        }
+
+        .popup {
+            position: fixed;
+            left: 50%;
+            -webkit-transform: none;
+            transform: none;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            z-index: 501;
+            display: none;
+        }
+
+        #popup {
+            position: fixed;
+        }
+
+        #loading {
+            position: fixed;
+            display: inline-block;
+            padding: 50px;
+            top: 50%;
+            left: 50%;
+            margin-top: -75px;
+            margin-left: -75px;
+            background: #ffffff;
+            border: 1px solid #000;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+    <div class="popup" id="PopupLayer">
+    </div>
+    <!-- s: pou up -->
+    <div id="popup" class="layerPop">
+    </div>
+    <!-- e: pou up -->
+    <!-- s: processbar -->
+    <div id="loading">
+        <img src="/Images/loading.gif" alt="처리중" />
+        <p class="ac mt20 b" id="msg">처리 중 입니다...</p>
+    </div>
+    <!-- e: processbar -->
+    <div id="dimmed">&nbsp;</div>
+
 </body>
 </html>

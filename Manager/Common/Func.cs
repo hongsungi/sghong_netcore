@@ -112,6 +112,25 @@ namespace Manager.Common
             return stringBuilder.ToString();
         }
 
+        public static string GetNow()
+        {
+            return System.DateTime.Now.ToString("yyyyMMddHHmmss");
+        }
+
+        public static string getRequestQueryStringToString(string Name)
+        {
+            IHttpContextAccessor context = new HttpContextAccessor();
+
+            string strReturnValue = context.HttpContext.Request.Query[Name].ToString();
+
+            if (strReturnValue == null)
+            {
+                strReturnValue = "";
+            }
+
+            return strReturnValue;
+        }
+
         public static string GetUserIP()
         {
             string retIP = "";
