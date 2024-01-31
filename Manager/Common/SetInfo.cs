@@ -7,7 +7,9 @@
 
         public const string domain = "http://127.0.0.1";
 
-        public const string fileUploadroot = "/upload";
+        public const string fileUploadRealRoot = @"D:\Web\coreManager\upload";
+        public const string fielUploadWebRoot = "/upload";
+
         public static readonly int[] productimagesize = { 60, 150, 300, 500, 800 };
         public static readonly int[] productsubimagesize = { 150, 300, 500 };
     }

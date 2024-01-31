@@ -1,0 +1,83 @@
+﻿@using Manager.Common
+@{
+    Layout = "_Layout";
+}
+<script type="text/javascript" src="/js/manage/menu/menu.js?ver=@Func.GetNow()"></script>
+<div class="tb_layout_1">
+    <form name="form" method="post" action="/manage/menu/modify">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="menuPCode" value="@Model.menupcode" />
+        <input type="hidden" name="menuCode" value="@Model.menucode" />
+        <input type="hidden" name="MenuDispNum" id="MenuDispNum" value="@Model.menudispnum" />
+        <table>
+            <colgroup>
+                <col style="width: 150px;" />
+                <col style="width: *;" />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td class="title"><span class="required">메뉴코드</span></td>
+                    <td>@Model.menucode</td>
+                </tr>
+                <tr>
+                    <td class="title"><span class="required">메뉴명</span></td>
+                    <td><input type="text" name="menuName" id="MenuName" maxlength="20" value="@Model.menuname" class="input_text" style="width: 30%;" /></td>
+                </tr>
+                <tr>
+                    <td class="title"><span class="required">메뉴URL</span></td>
+                    <td><input type="text" name="menuUrl" id="MenuURL" maxlength="100" value="@Model.menuurl" class="input_text" style="width: 70%;" @if (Model.menupcode.Equals("0000"))
+                        {
+                            @Html.Encode("readonly")
+                        } /></td>
+                </tr>
+                <tr>
+                    <td class="title"><span class="required">게시여부</span></td>
+                    <td>
+                        <ul class="rdoList">
+                            <li><label><input type="radio" name="menuUseFlag" value="Y" @if (Model.menuuseflag.Equals("Y")) { @Html.Encode("checked") } /> 게시</label></li>
+                            <li><label><input type="radio" name="menuUseFlag" value="N" @if (Model.menuuseflag.Equals("N")) { @Html.Encode("checked") } /> 게시안함</label></li>
+                        </ul>
+                    </td>
+                </tr>
+                @if (Model.menupcode.Equals("0000"))
+                {
+                    <input type="hidden" name="menuChoice" value="N" />
+                }
+                else
+                {
+                    <tr>
+                        <td class="title"><span class="required">즐겨찾기</span></td>
+                        <td>
+                            <ul class="rdoList">
+                                <li><label><input type="radio" name="menuChoice" value="Y" @if (Model.menuchoice.Equals("Y")) { @Html.Encode("checked") } /> 사용</label></li>
+                                <li><label><input type="radio" name="menuChoice" value="N" @if (Model.menuchoice.Equals("N")) { @Html.Encode("checked") } /> 사용안함</label></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<div class="posR mt20">
+    <div class="btnRight2">
+        <a href="javascript:chk_Field()" class="btn-c"><span>수정</span></a>
+        <a href="javascript:delete_Menu()" class="btn-c"><span>삭제</span></a>
+        @if (Model.menupcode.Equals("0000"))
+        {
+            <a href="/manage/menu/list/@Model.menucode" class="btn-d"><span>목록</span></a>
+        }
+        else
+        {
+            <a href="/manage/menu/list/@Model.menupcode" class="btn-d"><span>목록</span></a>
+        }
+    </div>
+</div>
+
+<form name="fform" id="fform" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="menuPCode" value="@Model.menupcode">
+    <input type="hidden" name="menuCode" value="@Model.menucode">
+</form>

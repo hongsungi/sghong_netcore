@@ -1,0 +1,5 @@
+﻿<form name="form" action="/test3" enctype="multipart/form-data" method="post">
+@Html.AntiForgeryToken()    
+<input type="file" name="FileName" />
+<button name="btn" onclick="document.form.submit();">실행</button>
+</form>
